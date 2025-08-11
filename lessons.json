@@ -1,0 +1,133 @@
+[
+  {
+    "id": "network",
+    "name": "Networking & CDN",
+    "lessons": [
+      {
+        "id": "vpc-foundations",
+        "title": "VPC Foundations (Subnets, Routing, NAT, Endpoints)",
+        "objectives": [
+          "Design public/private subnets across AZs",
+          "Choose NAT vs VPC Endpoints",
+          "Apply SGs vs NACLs, reachability checks"
+        ],
+        "content": [
+          {
+            "h": "VPC & Subnets",
+            "p": [
+              "A VPC spans a region; subnets are AZ-scoped. Public subnets route 0.0.0.0/0 to an IGW; private subnets use a NAT in a public subnet for egress.",
+              "Use route tables to control traffic, associate them per subnet."
+            ]
+          },
+          {
+            "h": "Endpoints vs NAT",
+            "p": [
+              "Gateway Endpoints (S3/DynamoDB) keep traffic private; Interface Endpoints (PrivateLink) expose ENIs for supported services.",
+              "Use NAT for outbound internet when contacting public repos or update servers."
+            ]
+          },
+          {
+            "h": "Security Layers",
+            "p": [
+              "Security Groups are stateful (allow rules only); NACLs are stateless (allow/deny).",
+              "Reachability Analyzer and VPC Flow Logs help diagnose path issues."
+            ]
+          }
+        ],
+        "checks": [
+          {
+            "q": "Private subnets need to reach S3 privately. Best option?",
+            "a": [
+              "NAT Gateway",
+              "S3 Gateway Endpoint",
+              "Internet Gateway",
+              "VPC Peering"
+            ],
+            "ans": 1,
+            "why": "Gateway Endpoint for S3 keeps traffic within AWS backbone without NAT costs."
+          }
+        ]
+      },
+      {
+        "id": "elb-families",
+        "title": "ALB vs NLB vs GWLB",
+        "objectives": [
+          "Select the right load balancer",
+          "Understand health checks & target types",
+          "Secure & scale"
+        ],
+        "content": [
+          {
+            "h": "Families",
+            "p": [
+              "ALB (L7 HTTP/HTTPS/WebSockets), path/host routing; NLB (L4 TCP/UDP/TLS) with static IPs and high performance; GWLB for insertable appliances via GENEVE.",
+              "Target types: instance, IP, Lambda (ALB only)."
+            ]
+          },
+          {
+            "h": "When to Use",
+            "p": [
+              "ALB for web apps and advanced routing; NLB for TCP/UDP or static IP; GWLB to run firewalls/IDS inline."
+            ]
+          }
+        ],
+        "checks": [
+          {
+            "q": "Need static IPs and TLS offload for TCP. Which LB?",
+            "a": [
+              "ALB",
+              "NLB",
+              "GWLB",
+              "CLB"
+            ],
+            "ans": 1,
+            "why": "NLB supports static IPs and TLS for TCP/UDP."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "compute",
+    "name": "Compute",
+    "lessons": [
+      {
+        "id": "ec2-purchasing",
+        "title": "EC2 Purchasing Options & Autoscaling",
+        "objectives": [
+          "Pick cost model",
+          "Design ASG policies",
+          "Use placement groups when needed"
+        ],
+        "content": [
+          {
+            "h": "Pricing Models",
+            "p": [
+              "On-Demand for flexibility; Savings Plans/Reserved for committed usage; Spot for interruption-tolerant workloads; Dedicated Host/Instance for compliance/licensing.",
+              "Capacity Reservations keep AZ capacity available."
+            ]
+          },
+          {
+            "h": "Autoscaling",
+            "p": [
+              "Target tracking vs step vs scheduled; lifecycle hooks; warm pools; health checks replace bad instances."
+            ]
+          }
+        ],
+        "checks": [
+          {
+            "q": "Steady 24/7 workload for 1 year at lowest price.",
+            "a": [
+              "On-Demand",
+              "Spot",
+              "Savings Plan",
+              "Dedicated Host"
+            ],
+            "ans": 2,
+            "why": "Savings Plans give significant discounts for committed usage."
+          }
+        ]
+      }
+    ]
+  }
+]

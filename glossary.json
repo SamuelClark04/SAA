@@ -1,0 +1,14 @@
+[
+  {
+    "term": "AZ",
+    "def": "Availability Zone; physically separate datacenter in a region."
+  },
+  {
+    "term": "OAC",
+    "def": "Origin Access Control; secure CloudFront to S3 without public access."
+  },
+  {
+    "term": "NAT Gateway",
+    "def": "Managed egress for private subnets to reach the internet."
+  }
+]

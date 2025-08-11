@@ -1,0 +1,40 @@
+[
+  {
+    "id": "lab-s3-oac",
+    "title": "Private S3 Behind CloudFront OAC",
+    "tier": "T1-2",
+    "goals": [
+      "Secure S3 origin",
+      "ACM cert",
+      "OAC policy"
+    ],
+    "steps": [
+      "Create CF distribution with OAC",
+      "Attach bucket policy for OAC principal",
+      "Invalidate cache"
+    ],
+    "checks": [
+      "CF 200s",
+      "No public S3 access"
+    ]
+  },
+  {
+    "id": "lab-nat-egress",
+    "title": "Private Subnet Egress via NAT",
+    "tier": "T1",
+    "goals": [
+      "EC2 in private subnet",
+      "NAT in public subnet",
+      "Route config"
+    ],
+    "steps": [
+      "Create NAT Gateway",
+      "Update route table",
+      "Verify with curl and Flow Logs"
+    ],
+    "checks": [
+      "0.0.0.0/0 -> NAT",
+      "Reachability Analyzer ok"
+    ]
+  }
+]
