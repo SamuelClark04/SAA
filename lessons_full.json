@@ -1,0 +1,333 @@
+[
+  {
+    "id": "compute",
+    "name": "Compute",
+    "lessons": [
+      {
+        "id": "ec2_basics",
+        "title": "EC2 Basics (Instances, AMIs, User Data)",
+        "keywords": [
+          "ec2",
+          "instances",
+          "ami",
+          "user data"
+        ],
+        "body": {
+          "objectives": [
+            "Know what EC2 is and what it is not",
+            "Choose AMI and instance families",
+            "Use User Data safely"
+          ],
+          "concepts": [
+            "EC2 = virtual machines you rent",
+            "AMIs are templates of OS+software",
+            "User Data runs at first boot—make it idempotent",
+            "Instance families: general(M), compute(C), memory(R), storage(I), GPU(G/P)"
+          ],
+          "when": [
+            "Need full OS control",
+            "Lift‑and‑shift apps that aren’t serverless",
+            "Special licensing needs"
+          ],
+          "why": [
+            "Managing servers adds ops overhead",
+            "For short bursts or event‑driven, Lambda is easier",
+            "Don’t hardcode creds—use IAM roles"
+          ],
+          "pitfalls": [
+            "Confusing EC2 Auto Recovery with Auto Scaling",
+            "Forgetting to make User Data idempotent",
+            "Using key pairs instead of Systems Manager for access in enterprises"
+          ],
+          "examples": [
+            "Web app on two EC2s behind ALB",
+            "Bake AMIs with Packer or Image Builder"
+          ],
+          "mini_check": [
+            {
+              "q": "What runs on first boot to configure an instance?",
+              "a": "User Data (cloud‑init)"
+            },
+            {
+              "q": "Which instance family is for memory heavy DBs?",
+              "a": "R family"
+            }
+          ],
+          "related_tags": [
+            "ec2",
+            "compute"
+          ]
+        }
+      },
+      {
+        "id": "asg_scaling",
+        "title": "Auto Scaling Groups (Warm Pools, Health, Policies)",
+        "keywords": [
+          "asg",
+          "autoscaling",
+          "warm pools",
+          "target tracking"
+        ],
+        "body": {
+          "objectives": [
+            "Keep capacity healthy across AZs",
+            "Scale based on metrics",
+            "Warm pool to cut cold‑start time"
+          ],
+          "concepts": [
+            "ASG replaces unhealthy instances",
+            "Scaling policies: Target Tracking, Step, Scheduled",
+            "Health checks: EC2 vs ELB",
+            "Warm pools keep pre‑initialized instances"
+          ],
+          "when": [
+            "Steady traffic with spikes",
+            "Need HA across AZs",
+            "Blue/green updates with LT versions"
+          ],
+          "why": [
+            "Scaling too slowly if cooldowns are wrong",
+            "Only EC2 health checks—miss app issues",
+            "Forgetting multiple AZ subnets"
+          ],
+          "pitfalls": [
+            ""
+          ],
+          "examples": [
+            "Target tracking on ALB 50% CPU",
+            "Warm pool size = peak/2 for faster scale-out"
+          ],
+          "mini_check": [
+            {
+              "q": "What policy keeps a metric (e.g., CPU) near a value?",
+              "a": "Target Tracking"
+            },
+            {
+              "q": "Who replaces failed instances?",
+              "a": "The ASG"
+            }
+          ],
+          "related_tags": [
+            "asg",
+            "compute"
+          ]
+        }
+      },
+      {
+        "id": "elb_families",
+        "title": "Load Balancers: ALB vs NLB vs GWLB",
+        "keywords": [
+          "alb",
+          "nlb",
+          "gwlb",
+          "load balancer"
+        ],
+        "body": {
+          "objectives": [
+            "Pick the right LB",
+            "Know target types and health checks"
+          ],
+          "concepts": [
+            "ALB = L7 HTTP/HTTPS + path/host routing + WebSockets",
+            "NLB = L4 TCP/UDP/TLS + static IP + high perf",
+            "GWLB = inserts appliances using GENEVE",
+            "Targets: instance, IP, (Lambda for ALB)"
+          ],
+          "when": [
+            "Web apps → ALB",
+            "High‑perf TCP/UDP or static IP → NLB",
+            "Inline firewalls/IDS → GWLB"
+          ],
+          "why": [
+            "Thinking ALB gives static IPs (it doesn’t)",
+            "Using GWLB when you just need L7 features"
+          ],
+          "pitfalls": [
+            ""
+          ],
+          "examples": [
+            "ALB with Lambda targets for serverless web",
+            "NLB TLS termination + static IPs for partners"
+          ],
+          "mini_check": [
+            {
+              "q": "Need static IPs and TCP?",
+              "a": "NLB"
+            },
+            {
+              "q": "Need path‑based routing?",
+              "a": "ALB"
+            }
+          ],
+          "related_tags": [
+            "alb",
+            "nlb",
+            "gwlb",
+            "elb",
+            "headers"
+          ]
+        }
+      },
+      {
+        "id": "ga_deploy",
+        "title": "Blue/Green & Rolling (EC2/ALB)",
+        "keywords": [
+          "blue green",
+          "rolling",
+          "deployment"
+        ],
+        "body": {
+          "objectives": [
+            "Choose blue/green vs rolling",
+            "Minimize downtime"
+          ],
+          "concepts": [
+            "Blue/green = two stacks; swap traffic via ALB/Route53",
+            "Rolling = replace fraction of instances per step",
+            "Use LT versions and ASG instance refresh"
+          ],
+          "when": [
+            "Risky changes → blue/green",
+            "Minor updates → rolling"
+          ],
+          "why": [
+            "Forgetting DB migrations timing",
+            "Cutting capacity too far during rolling"
+          ],
+          "pitfalls": [
+            ""
+          ],
+          "examples": [
+            "Swap ALB target groups for instant rollback"
+          ],
+          "mini_check": [
+            {
+              "q": "Which is safer for big changes?",
+              "a": "Blue/green"
+            },
+            {
+              "q": "What swaps traffic in blue/green?",
+              "a": "ALB TG or Route53"
+            }
+          ],
+          "related_tags": [
+            "deploy",
+            "alb",
+            "asg"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "network",
+    "name": "Networking & Hybrid",
+    "lessons": [
+      {
+        "id": "vpc_fundamentals",
+        "title": "VPC Basics (Subnets, Routes, IGW, NAT)",
+        "keywords": [
+          "vpc",
+          "subnet",
+          "route table",
+          "igw",
+          "nat"
+        ],
+        "body": {
+          "objectives": [
+            "Design public/private subnets across AZs",
+            "Know how instances talk out to the internet",
+            "Keep private things private"
+          ],
+          "concepts": [
+            "VPC spans region; subnets live in AZs",
+            "Public subnet: default route → IGW",
+            "Private subnet: default route → NAT Gateway in public subnet",
+            "Route tables control traffic per subnet"
+          ],
+          "when": [
+            "Public web tier + private app/DB",
+            "Private workloads that still need outbound patches"
+          ],
+          "why": [
+            "Forgetting that NAT must be in a public subnet",
+            "Single NAT = single AZ SPOF unless you add one per AZ",
+            "Using IGW for private subnets"
+          ],
+          "pitfalls": [
+            ""
+          ],
+          "examples": [
+            "Two AZ design: 2 public (ALB+NAT), 2 private (app/DB)"
+          ],
+          "mini_check": [
+            {
+              "q": "What gives outbound internet to private subnets?",
+              "a": "NAT Gateway"
+            },
+            {
+              "q": "Where does a public subnet route 0.0.0.0/0?",
+              "a": "Internet Gateway"
+            }
+          ],
+          "related_tags": [
+            "vpc",
+            "nat",
+            "routing",
+            "egress"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "security",
+    "name": "Security, Identity, Compliance",
+    "lessons": [
+      {
+        "id": "iam_core",
+        "title": "IAM Core (Users, Roles, Policies, STS)",
+        "keywords": [
+          "iam",
+          "roles",
+          "policies",
+          "sts"
+        ],
+        "body": {
+          "objectives": [
+            "Use roles not access keys",
+            "Least privilege policies"
+          ],
+          "concepts": [
+            "Policies attach to roles; roles are assumed (temporary creds via STS)",
+            "Managed vs inline policies",
+            "Resource vs identity policies"
+          ],
+          "when": [
+            "Apps on EC2/Lambda use roles",
+            "Cross‑account access via role assumption"
+          ],
+          "why": [
+            "Embedding long‑lived keys on servers",
+            "Over‑permissive policies with *"
+          ],
+          "pitfalls": [
+            ""
+          ],
+          "examples": [
+            "EC2 role to read S3; developer uses assume-role for admin in sandbox"
+          ],
+          "mini_check": [
+            {
+              "q": "What gives temporary creds when you assume a role?",
+              "a": "STS"
+            }
+          ],
+          "related_tags": [
+            "iam"
+          ]
+        }
+      }
+    ]
+  }
+]
