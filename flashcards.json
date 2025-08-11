@@ -1,0 +1,32 @@
+[
+  {
+    "id": "fc_sg_nacl",
+    "front": "Security Group vs NACL — core difference?",
+    "back": "SG: stateful, allow-only, attached to ENI. NACL: stateless, allow+deny, subnet level."
+  },
+  {
+    "id": "fc_s3_endpoint",
+    "front": "Private S3 access from private subnets?",
+    "back": "Use S3 Gateway VPC Endpoint; remove NAT data processing cost."
+  },
+  {
+    "id": "fc_alb_nlb",
+    "front": "ALB vs NLB vs GWLB?",
+    "back": "ALB=L7 HTTP; NLB=L4 TCP/UDP, static IP; GWLB=appliances via GENEVE."
+  },
+  {
+    "id": "fc_aurora_ha",
+    "front": "Aurora high availability across AZs?",
+    "back": "One writer + replicas in other AZs for fast failover."
+  },
+  {
+    "id": "fc_savingsplan",
+    "front": "Best for steady 24/7 with flexibility across families?",
+    "back": "Compute Savings Plan."
+  },
+  {
+    "id": "fc_dr",
+    "front": "DR strategies (best RTO/RPO)?",
+    "back": "Active‑Active multi‑region (highest cost/complexity)."
+  }
+]

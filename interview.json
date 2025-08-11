@@ -1,0 +1,19 @@
+{
+  "roles": {
+    "SAA Core": [
+      "Design highly available web tier across 2+ AZs with private DB",
+      "Explain NAT Gateway vs VPC Endpoints & cost implications",
+      "RTO/RPO trade-offs across DR strategies"
+    ],
+    "Cloud Support Associate": [
+      "Triage 5xx on ALB (target health, codes, logs)",
+      "Investigate S3 AccessDenied (IAM/bucket policy/OAC)",
+      "Use Reachability Analyzer to debug path"
+    ],
+    "Ops/Monitoring": [
+      "CloudWatch metrics/alarms, Logs Insights patterns",
+      "Distributed tracing with X-Ray",
+      "Incident runbook structure and escalation"
+    ]
+  }
+}
